@@ -4,7 +4,7 @@
 
 uint8_t seg1, seg2, seg3, seg4;
 
-// Segmente, die leuchten sollen pro Zahlwert (Low-Aktiv), & 0x7F Verknüpfen fuer Dezimalpunkt
+// Segmente, die leuchten sollen pro Zahlwert (Low-Aktiv), & 0x7F VerknÃ¼pfen fuer Dezimalpunkt
 const uint8_t SEGMENT_MAP[] = {0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0x80,0x90};
 
 void short_delay(void) {
@@ -17,14 +17,14 @@ void long_delay(void) {
         ;
 }
 
-inline void sr_clk(void) {
+void sr_clk(void) {
     SR_CLK_PORT &= ~(1<<SR_CLK_PIN);
     short_delay();
     SR_CLK_PORT |= (1<<SR_CLK_PIN);
     short_delay();
 }
 
-inline void sr_out_clk(void) {
+void sr_out_clk(void) {
     SR_OUT_CLK_PORT &= ~(1<<SR_OUT_CLK_PIN);
     short_delay();
     SR_OUT_CLK_PORT |= (1<<SR_OUT_CLK_PIN);
@@ -34,7 +34,7 @@ void init_sr_display(void) {
     seg1 = seg2 = seg3 = seg4 = 0;
     SR_DATA_DDR |= (1<<SR_DATA_PIN);
     SR_CLK_DDR |= (1<<SR_CLK_PIN);
-    SR_OUT_CLK_DDR |= (1<<SR_CLK_PIN);
+    SR_OUT_CLK_DDR |= (1<<SR_OUT_CLK_PIN);
     
     SR_DATA_PORT &= ~(1<<SR_DATA_PIN);
     SR_CLK_PORT &= ~(1<<SR_CLK_PIN);
@@ -63,7 +63,7 @@ void shift_out(uint8_t data) {
 ISR(TIMER2_COMPA_vect) {
     static int8_t segnr = 0;
 
-    // Output deaktivieren während geshifted wird
+    // Output deaktivieren wÃ¤hrend geshifted wird
     SR_OUT_CLK_PORT &= ~(1<<SR_OUT_CLK_PIN);
     
     switch (segnr) {
@@ -96,7 +96,7 @@ ISR(TIMER2_COMPA_vect) {
 void update_sr_display(int zahl) {
     uint8_t tmp_seg1, tmp_seg2, tmp_seg3, tmp_seg4;
     
-    // die Zwischenspeicher sind nötig, damit nicht Zwischenwerte während eines Timer-Interrupts verwendet werden
+    // die Zwischenspeicher sind nÃ¶tig, damit nicht Zwischenwerte wÃ¤hrend eines Timer-Interrupts verwendet werden
     
     tmp_seg1 = (zahl / 1000);
     tmp_seg2 = (zahl - 1000*tmp_seg1) / 100;
